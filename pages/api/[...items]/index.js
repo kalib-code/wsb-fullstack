@@ -1,16 +1,22 @@
 import * as uuid from "uuid";
-import dynamoDb from "../../lib/dynamodb";
+import daysjs from "daysjs";
+import { api, buildScanFilterExpression } from "../../../lib/dynamodb";
+
+const table_names = {
+    songs: "WSB_Dev_Songs",
+    users: "WSB_Dev_Users",
+}
 
 export default async function handler(req, res) {
+  const { items , ...query } = req.query;
   if (req.method === "POST") {
     const item = {
       id: uuid.v4(),
       ...req.body,
-      createdAt: Date.now(),
+      createdAt: daysjs().format("YYYY-MM-DD HH:mm:ss"),
     };
-
-    await dynamoDb.put({
-      TableName: "WSB_Dev_Users",
+    await api.put({
+      TableName: table_names.items[1],
       Item: item,
     });
 
@@ -18,24 +24,28 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    if (req.query.id) {
-      const { Item } = await dynamoDb.get({
+  
+
+    if (items[2]) {
+      const { Item } = await api.get({
         Key: {
-          id: req.query.id,
+          id: items[2],
         },
       });
-
       res.status(200).json(Item);
     }
 
-    const { Items } = await dynamoDb.query({
-      TableName: process.env.TABLE_NAME,
+    const { Items } = await api.query({
+        TableName: table_names.items[1],
+        IndexName: "id",
+        ...buildScanFilterExpression(query),
+        
     });
     res.status(200).json(Items);
   }
 
   if (req.method === "PUT") {
-    const { Attributes } = await dynamoDb.update({
+    const { Attributes } = await api.update({
       Key: {
         id: req.body.id,
       },
@@ -50,7 +60,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "DELETE") {
-    await dynamoDb.delete({
+    await api.delete({
       Key: {
         id: req.query.id,
       },
