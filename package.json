@@ -8,6 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.121.0",
+    "@aws-sdk/util-dynamodb": "^3.121.0",
+    "@aws/dynamodb-data-marshaller": "^0.7.3",
     "aws-sdk": "^2.1171.0",
     "dayjs": "^1.11.3",
     "next": "^12.2.0",
