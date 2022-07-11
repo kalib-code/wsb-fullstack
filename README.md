@@ -1,3 +1,1 @@
-# nextjs-h3xt6n
-
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/nextjs-h3xt6n)
+# Worship Song Band Full stack E-Commerce application  
