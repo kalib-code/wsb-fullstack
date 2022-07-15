@@ -18,7 +18,7 @@ export default async function handler (req, res) {
   if (req.method === 'GET') {
       const queryString = qs.parse(req.query)
       const response = await getAll(resource, queryString)
-      console.log(response.length)
+
       if(response.length === 0) {
         res.status(404).json({
           message: 'Not found'

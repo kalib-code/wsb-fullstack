@@ -273,6 +273,8 @@ export const getAll = async (tableName, where) => {
   return result.map(item => unMarshall(item))
 }
 
+// TODO : implement get query with recursive query
+
 export const getItemsByIndex = async (index, value, where) => {
   const input = {
     TableName: getFormattedTableName(tableName),
